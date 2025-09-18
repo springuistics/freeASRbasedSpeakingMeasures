@@ -1,0 +1,148 @@
+<html translate="no">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+<div id="beginner" class="w3-container">
+    <div class="w3-border w3-leftbar w3-topbar w3-rightbar w3-bottombar w3-border-blue">
+<!--This form can be used to send to where ever needed by adding an action. It also collects user information-->
+<form id="theMainForm" method="post">
+        <div class="w3-container w3-blue w3-center">
+            <h1>Fluency and Pronunciation Checking</h1>
+            <h3>Provide your information below</h3>
+        </div>
+  <!--Change as needed for your use-case-->
+        <div class="w3-row-padding">
+            <div class="w3-half w3-center">
+                <div id="number_error" class="w3-panel w3-red w3-display-container" style="display: none">
+                    <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-large w3-display-topright">&times;</span>
+                    <p>You forgot to write your student number, or have written an invalid student number!</p>
+                </div>
+                <h3 class="w3-text-blue">Student Number</h3>
+                <input id="snumber" class="w3-input w3-border w3-border-blue" type="text" name="snumber">
+            </div>
+            <div class="w3-half w3-center">
+                <div id="tname_error" class="w3-panel w3-red w3-display-container" style="display: none">
+                    <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-large w3-display-topright">&times;</span>
+                    <p>You forgot to select your teacher!</p>
+                </div>
+                <h3 class="w3-text-blue">Select Your Teacher:</h3>
+                <select id="tname" class="w3-input w3-border w3-border-blue" name="tname">
+                    <option value="">--Select Teacher--</option>
+                </select>
+            </div>
+        </div>
+        <div class="w3-row-padding">
+            <div class="w3-half w3-center">
+                <div id="day_error" class="w3-panel w3-red w3-display-container" style="display: none">
+                    <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-large w3-display-topright">&times;</span>
+                    <p>You forgot to select your class!</p>
+                </div>
+                <h3 class="w3-text-blue">English Class Day:</h3>
+                <input class="w3-radio" type="radio" name="Day" value="Mon">
+                <label>Monday</label>
+                <input class="w3-radio" type="radio" name="Day" value="Tues">
+                <label>Tuesday</label>
+                <input class="w3-radio" type="radio" name="Day" value="Wed">
+                <label>Wednesday</label>
+                <input class="w3-radio" type="radio" name="Day" value="Thur">
+                <label>Thursday</label>
+                <input class="w3-radio" type="radio" name="Day" value="Fri">
+                <label>Friday</label>
+            </div>
+            <div class="w3-half w3-center">
+                <div id="time_error" class="w3-panel w3-red w3-display-container" style="display: none">
+                    <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-large w3-display-topright">&times;</span>
+                    <p>You forgot to select your class period!</p>
+                </div>
+                <h3 class="w3-text-blue">English Class Period:</h3>
+                <input class="w3-radio" type="radio" name="Period" value="1">
+                <label>1st Period</label>
+                <input class="w3-radio" type="radio" name="Period" value="2">
+                <label>2nd Period</label>
+                <input class="w3-radio" type="radio" name="Period" value="3">
+                <label>3rd Period</label>
+                <input class="w3-radio" type="radio" name="Period" value="4">
+                <label>4th Period</label>
+            </div>
+        </div>
+        <br>
+    </div>
+  <!--holds output for sending to database-->
+    <input style="display: none" id="score" name="score">
+    <input style="display: none" id="timeElapsed" name="timeElapsed">
+    <input style="display: none" id="numberofWords" name="numberofWords">
+    <input style="display: none" id="numberofSyllables" name="numberofSyllables">
+    <input style="display: none" id="extraW" name="extraW">
+    <input style="display: none" id="speechRate" name="speechRate">
+    <input style="display: none" id="corrP" name="corrP">
+    <input style="display: none" id="penP" name="penP">
+    <input style="display: none" id="transcript" name="transcript">
+</form>
+        <div class="w3-bar" id="yo" style="display: none;">
+            <p id="testing123" class="w3-center w3-sand"></p>
+        </div>
+        <div class="w3-bar w3-center w3-padding-16">
+            <button id="testing" class="w3-button w3-red w3-border w3-hover-grey" onclick="TesttheASR()">Check Device Compatibility</button>
+            <button id="begin" class="w3-button w3-purple w3-border w3-hover-deep-purple" onclick="StartTest()">Begin the Task</button>
+        </div>
+    
+    </div>
+    <div id="theASRerrorHolder" class="w3-modal" onclick="this.style.display='none'" style="display:none;">
+        <div id="asrModalContent" class="w3-modal-content w3-animate-zoom" style="width:560px; height:315px; overflow-y: auto;">
+            <header class="w3-container w3-red w3-center"><h2>Audio Error</h2>
+            <span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span></header>
+            <div class="w3-container">
+                <div id="theASRerrorMessage"></div>
+            </div>
+        </div>
+    </div>
+    <div id="real_stuff" style="display: none;">
+        <div class="w3-card-4 w3-center">
+            <header class="w3-container w3-purple w3-center">
+                <h2>Fluency and Pronunciation</h2>
+                <h3>Read the passage with the best fluency and pronunciation that you can. You have 45 seconds to prepare, and then you must begin speaking.</h3>
+                <br>
+                <p id="timer">0:45</p>
+                <br>
+                <button class="w3-button w3-green" id="earlyBTN" onclick="startTask()">Start Early</button>
+                <br>
+                <br>
+            </header>
+            <div class="w3-container w3-light-blue">
+                <h2>Passage:</h2>
+                <h3>Glassblowing, a technique used to shape and curve glass, has been around for over one thousand years. In fact, the earliest record of glassblowing is from 2,000 years ago. It's one of the fastest growing hobbies in the United States. If you want to try this art, first you're going to need a furnace. Furthermore, you'll need the right contents, such as limestone and sand. Ultimately, it takes a lot of money and skill to become an expert in this art.</h3>
+            </div>
+        </div>
+        <div class="w3-modal-content" id="allFinished" style="display: none">
+            <div class="w3-container">
+              <h3 >Good Job! You have finished the test!</h3>
+              <!--Replace onclick event with where they should be sent when finished-->
+              <button id="doneBTN" onclick="window.location.replace('www.google.com')" class="w3-button w3-black">Okay!</button>
+            </div>
+          </div>
+
+
+    </div>
+<!--This script uses the asrErrorHandler and dumbNLP created by Spring; please cite appropriately if using just these pieces of code-->
+<script src="https://springsenglish.online/dumbNLP/asrErrorHandler.js?v=1"></script>
+<script src="https://springsenglish.online/dumbNLP/dumbNLP_v1_0.js?v=1"></script>
+<!--This calls the javascript that handles everything-->
+<script src="FP.js?v=2"></script>
+</body>
+</html>
+<style>
+#timer{
+    margin: auto;
+    border: outset 4px grey;
+    background-color: black;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    width: 200px;
+    padding: 10px;
+    vertical-align: middle;
+}
+</style>
